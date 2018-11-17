@@ -1,5 +1,6 @@
 package com.rp.firebaserelation;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,11 +25,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    public static final String USER_DATA = "userdata";
-
     private EditText editTextName, editTextEmail, editTextPassword, editTextPhone;
 
     private FirebaseAuth firebaseAuth;
+
+    private ProgressDialog progressDialog;
 
     DatabaseReference databaseUsers;
 
@@ -46,7 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextPhone = findViewById(R.id.editTextPhone);
 
+        progressDialog = new ProgressDialog(this);
+
         findViewById(R.id.btnRegister).setOnClickListener(this);
+        findViewById(R.id.textViewLogin).setOnClickListener(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -125,10 +129,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+        progressDialog.setMessage("Registering user...");
+        progressDialog.show();
+
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
                         if(task.isSuccessful()) {
 
                             final User user = new User(name, email, phone);
@@ -154,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             });
 
                         } else {
-
+                            
                             Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
                         }
@@ -168,6 +176,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v == findViewById(R.id.btnRegister)){
 
             registerUser();
+
+        }
+        if(v == findViewById(R.id.textViewLogin)){
+
+            finish();
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
         }
     }

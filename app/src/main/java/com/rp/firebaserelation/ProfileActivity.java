@@ -32,6 +32,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         textViewWelcome = findViewById(R.id.textViewWelcome);
 
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
         databaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -58,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             firebaseAuth.signOut();
             finish();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
         }
     }

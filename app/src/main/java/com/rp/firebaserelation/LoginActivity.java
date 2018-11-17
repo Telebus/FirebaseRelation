@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     EditText editTextEmail;
     EditText editTextPassword;
+    TextView textViewRegister;
     Button btnLogin;
 
     private ProgressDialog progressDialog;
@@ -33,9 +34,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
+        textViewRegister = findViewById(R.id.textViewRegister);
         btnLogin = findViewById(R.id.btnLogin);
 
+        progressDialog = new ProgressDialog(this);
+
         btnLogin.setOnClickListener(this);
+        textViewRegister.setOnClickListener(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -103,6 +108,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         if (v == btnLogin){
             userLogin();
+        }
+        if(v == findViewById(R.id.textViewRegister)){
+
+            finish();
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
         }
     }
 }

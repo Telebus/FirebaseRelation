@@ -56,6 +56,13 @@
             android:layout_height="wrap_content"
             android:text="Register"/>
 
+        <TextView
+            android:textAlignment="center"
+            android:id="@+id/textViewLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Already have an account? Click here!" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

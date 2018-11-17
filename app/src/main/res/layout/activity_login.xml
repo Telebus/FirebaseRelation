@@ -42,6 +42,13 @@
             android:layout_height="wrap_content"
             android:text="Login"/>
 
+        <TextView
+            android:textAlignment="center"
+            android:id="@+id/textViewRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? Click here!" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
