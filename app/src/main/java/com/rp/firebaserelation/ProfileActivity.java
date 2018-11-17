@@ -30,15 +30,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
-
         textViewWelcome = findViewById(R.id.textViewWelcome);
 
-        Intent intent = getIntent();
+        databaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        String username = intent.getStringExtra(MainActivity.USER_NAME);
+                User user = dataSnapshot.getValue(User.class);
 
-        textViewWelcome.setText("Welcome, " + username);
+                textViewWelcome.setText(user.getName());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         findViewById(R.id.btnLogout).setOnClickListener(this);
 

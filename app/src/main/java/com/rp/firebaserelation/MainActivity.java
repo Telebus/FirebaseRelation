@@ -24,8 +24,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    public static final String USER_NAME = "username";
-    public static final String USER_ID = "userid";
+    public static final String USER_DATA = "userdata";
 
     private EditText editTextName, editTextEmail, editTextPassword, editTextPhone;
 
@@ -143,15 +142,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                                         Toast.makeText(MainActivity.this, "Registered Successfully", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
 
-                                        intent.putExtra(USER_NAME, databaseUsers.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getDatabase().toString());
-
-                                        startActivity(intent);
+                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
 
                                     } else {
 
-                                        Toast.makeText(MainActivity.this, "Could not register", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(MainActivity.this, "Could not register! Try again later", Toast.LENGTH_LONG).show();
 
                                     }
                                 }
