@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,15 +19,16 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView textViewWelcome;
-
     DatabaseReference databaseUsers;
-
     FirebaseAuth firebaseAuth;
+    Button btnChangePass;
 
-    @Override
+@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        btnChangePass = findViewById(R.id.btnChangePass);
 
         textViewWelcome = findViewById(R.id.textViewWelcome);
 
@@ -52,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         findViewById(R.id.btnLogout).setOnClickListener(this);
         findViewById(R.id.btnEdit).setOnClickListener(this);
+        btnChangePass.setOnClickListener(this);
 
     }
 
@@ -68,6 +71,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             finish();
             startActivity(new Intent(getApplicationContext(), EditProfile.class));
+
+        }
+
+        if (v == btnChangePass){
+
+            finish();
+            startActivity(new Intent(getApplicationContext(), ChangePassword.class));
 
         }
     }

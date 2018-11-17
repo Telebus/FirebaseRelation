@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog = new ProgressDialog(this);
 
         btnLogin.setOnClickListener(this);
+
         textViewRegister.setOnClickListener(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (v == btnLogin){
             userLogin();
         }
-        if(v == findViewById(R.id.textViewRegister)){
+        if (v == findViewById(R.id.textViewRegister)){
 
             finish();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
