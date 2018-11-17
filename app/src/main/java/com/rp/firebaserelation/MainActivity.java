@@ -58,40 +58,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
-
-        // Attach a listener to read the data at our posts reference
-        databaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                usersList.clear();
-
-                for(DataSnapshot usersSnapshot : dataSnapshot.getChildren()){
-
-                    User user = usersSnapshot.getValue(User.class);
-
-                    usersList.add(user);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
 
         if(firebaseAuth.getCurrentUser() != null) {
 
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
 
+        } else {
+            return;
         }
 
-    }
+    }*/
 
     private void registerUser() {
 
@@ -162,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             });
 
                         } else {
-                            
+
                             Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
                         }
