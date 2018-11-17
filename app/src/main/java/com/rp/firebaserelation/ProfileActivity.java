@@ -28,9 +28,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
         textViewWelcome = findViewById(R.id.textViewWelcome);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         databaseUsers = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -51,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         findViewById(R.id.btnLogout).setOnClickListener(this);
+        findViewById(R.id.btnEdit).setOnClickListener(this);
 
     }
 
@@ -61,6 +62,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             firebaseAuth.signOut();
             finish();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+        }
+        if(v == findViewById(R.id.btnEdit)){
+
+            finish();
+            startActivity(new Intent(getApplicationContext(), EditProfile.class));
 
         }
     }
