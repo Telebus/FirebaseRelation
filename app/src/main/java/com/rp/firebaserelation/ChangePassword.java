@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ChangePassword extends AppCompatActivity implements View.OnClickListener {
 
     EditText editTextPassword;
+    EditText editTextConfirmPassword;
     FirebaseAuth auth;
     ProgressDialog dialog;
     Button btnChangePass;
@@ -32,6 +33,8 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         btnCancel = findViewById(R.id.btnCancel);
 
         editTextPassword = findViewById(R.id.editTextPassword);
+        editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
@@ -45,10 +48,15 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
 
-            dialog.setMessage("Changing password!");
-            dialog.show();
+            String pass1 = editTextPassword.getText().toString();
+            String pass2 = editTextConfirmPassword.getText().toString();
 
-            user.updatePassword(editTextPassword.getText().toString())
+            if (pass1 == pass2){
+
+                dialog.setMessage("Changing password!");
+                dialog.show();
+
+                user.updatePassword(editTextPassword.getText().toString())
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -70,6 +78,13 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
 
                         }
                     });
+
+            } else {
+
+                dialog.dismiss();
+                Toast.makeText(getApplicationContext(), "The passwords don't match!", Toast.LENGTH_LONG).show();
+
+            }
 
         }
 

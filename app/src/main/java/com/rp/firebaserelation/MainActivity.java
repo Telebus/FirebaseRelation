@@ -26,7 +26,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText editTextName, editTextEmail, editTextPassword, editTextPhone;
+    private EditText editTextName, editTextEmail, editTextPassword, editTextConfirmPassword ,editTextPhone;
 
     private FirebaseAuth firebaseAuth;
 
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextName = findViewById(R.id.editTextName);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
+        editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         editTextPhone = findViewById(R.id.editTextPhone);
 
         progressDialog = new ProgressDialog(this);
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         final String name = editTextName.getText().toString().trim();
         final String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        String password = editTextPassword.getText().toString();
+        String ConfirmPassword = editTextConfirmPassword.getText().toString();
         final String phone = editTextPhone.getText().toString().trim();
 
         if(name.isEmpty()) {
@@ -92,22 +94,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(password.isEmpty()) {
 
-            editTextName.setError("Password required!");
-            editTextName.requestFocus();
+            editTextPassword.setError("Password required!");
+            editTextPassword.requestFocus();
             return;
 
-        }
+        } /*else if(password != ConfirmPassword) {
+
+            editTextPassword.setError("Passwords don't match!");
+            editTextConfirmPassword.setError("Passwords don't match!");
+            editTextConfirmPassword.requestFocus();
+            return;
+        }*/
+
+        if(ConfirmPassword.isEmpty()) {
+
+            editTextConfirmPassword.setError("Password confirmation required!");
+            editTextConfirmPassword.requestFocus();
+            return;
+
+        } /*else if(password != ConfirmPassword) {
+
+            editTextPassword.setError("Passwords don't match!");
+            editTextConfirmPassword.setError("Passwords don't match!");
+            editTextConfirmPassword.requestFocus();
+            return;
+        }*/
+
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
-            editTextName.setError("Invalid email!");
-            editTextName.requestFocus();
+            editTextEmail.setError("Invalid email!");
+            editTextEmail.requestFocus();
             return;
 
         }
         if(phone.length() != 9) {
 
-            editTextName.setError("Invalid phone number!");
-            editTextName.requestFocus();
+            editTextPhone.setError("Invalid phone number!");
+            editTextPhone.requestFocus();
             return;
 
         }
