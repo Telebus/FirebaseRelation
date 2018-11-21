@@ -64,15 +64,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-
-        if(user != null) {
+        if(firebaseAuth.getCurrentUser() != null) {
 
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
 
         } else {
 
             return;
+
         }
 
     }
@@ -98,27 +97,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editTextPassword.requestFocus();
             return;
 
-        } /*else if(password != ConfirmPassword) {
+        } else if(!password.equals(ConfirmPassword)) {
 
             editTextPassword.setError("Passwords don't match!");
             editTextConfirmPassword.setError("Passwords don't match!");
             editTextConfirmPassword.requestFocus();
             return;
-        }*/
-
-        if(ConfirmPassword.isEmpty()) {
-
-            editTextConfirmPassword.setError("Password confirmation required!");
-            editTextConfirmPassword.requestFocus();
-            return;
-
-        } /*else if(password != ConfirmPassword) {
-
-            editTextPassword.setError("Passwords don't match!");
-            editTextConfirmPassword.setError("Passwords don't match!");
-            editTextConfirmPassword.requestFocus();
-            return;
-        }*/
+        }
 
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 

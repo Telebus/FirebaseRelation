@@ -51,7 +51,7 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
             String pass1 = editTextPassword.getText().toString();
             String pass2 = editTextConfirmPassword.getText().toString();
 
-            if (pass1 == pass2){
+            if (pass1.equals(pass2)){
 
                 dialog.setMessage("Changing password!");
                 dialog.show();

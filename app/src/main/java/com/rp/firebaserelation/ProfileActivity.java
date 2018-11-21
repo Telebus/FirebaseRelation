@@ -1,13 +1,21 @@
 package com.rp.firebaserelation;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,13 +30,47 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     DatabaseReference databaseUsers;
     FirebaseAuth firebaseAuth;
     Button btnChangePass;
+    Button btnDeleteAccount;
+    ProgressDialog dialog;
 
 @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        btnDeleteAccount =  findViewById(R.id.btnDeleteAccount);
+        dialog = new ProgressDialog(this);
+        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("All your data will be lost");
+                alertDialog.setPositiveButton("Delete anyway", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        delete();
+
+                    }
+                });
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        return;
+
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
+
         btnChangePass = findViewById(R.id.btnChangePass);
+
+        btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
 
         textViewWelcome = findViewById(R.id.textViewWelcome);
 
@@ -40,10 +82,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+
                 User user = dataSnapshot.getValue(User.class);
+
+                if (user != null){
 
                 textViewWelcome.setText(user.getName());
 
+                }
             }
 
             @Override
@@ -56,6 +102,39 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.btnEdit).setOnClickListener(this);
         btnChangePass.setOnClickListener(this);
 
+    }
+
+    public void delete(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+
+            dialog.setMessage("Changing password!");
+            dialog.show();
+
+            user.delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            dialog.dismiss();
+
+                            if (task.isSuccessful()){
+
+                                firebaseAuth.signOut();
+                                databaseUsers.removeValue();
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                Toast.makeText(getApplicationContext(), "Your account has been deleted!", Toast.LENGTH_LONG).show();
+
+                            } else {
+
+                                Toast.makeText(getApplicationContext(), "Your account could not be deleted!", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+
+        }
     }
 
     @Override
