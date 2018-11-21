@@ -111,6 +111,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editTextConfirmPassword.requestFocus();
             return;
         }
+        if(password.length() < 6){
+
+            editTextPassword.setError("Passwords must be at least 6 characters long!");
+            editTextConfirmPassword.setError("Passwords must be at least 6 characters long!");
+            editTextConfirmPassword.requestFocus();
+            return;
+        }
         if(phone.length() != 9) {
 
             editTextPhone.setError("Invalid phone number!");
