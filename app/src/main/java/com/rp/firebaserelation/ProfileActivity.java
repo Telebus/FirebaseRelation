@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
+    TextView textViewVerified;
     TextView textViewWelcome;
     DatabaseReference databaseUsers;
     FirebaseAuth firebaseAuth;
@@ -74,6 +75,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         textViewWelcome = findViewById(R.id.textViewWelcome);
 
+        textViewVerified = findViewById(R.id.textViewVerified);
+
         firebaseAuth = FirebaseAuth.getInstance();
 
         databaseUsers = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -84,11 +87,33 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
                 User user = dataSnapshot.getValue(User.class);
+                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
                 if (user != null){
 
-                textViewWelcome.setText(user.getName());
+                    textViewWelcome.setText(user.getName());
+                    if(firebaseUser.isEmailVerified()){
 
+                        textViewVerified.setText("Email Verified");
+
+                    } else {
+
+                        textViewVerified.setText("Email not Verified (Click here to verify)");
+                        textViewVerified.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toast.makeText(ProfileActivity.this, "Email verification sent, check your inbox!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+                            }
+                        });
+
+                    }
                 }
             }
 
@@ -101,6 +126,19 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.btnLogout).setOnClickListener(this);
         findViewById(R.id.btnEdit).setOnClickListener(this);
         btnChangePass.setOnClickListener(this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(firebaseAuth.getCurrentUser() == null) {
+
+            finish();
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+        }
 
     }
 
