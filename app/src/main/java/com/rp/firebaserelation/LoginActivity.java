@@ -42,6 +42,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         textViewForgot = findViewById(R.id.textViewForgot);
         btnLogin = findViewById(R.id.btnLogin);
 
+        Intent intent = getIntent();
+        editTextEmail.setText(intent.getStringExtra("email"));
+
         progressDialog = new ProgressDialog(this);
 
         btnLogin.setOnClickListener(this);

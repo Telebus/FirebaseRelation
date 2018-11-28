@@ -68,6 +68,8 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
                                 if (task.isSuccessful()) {
 
                                     Toast.makeText(PasswordResetActivity.this, "Password reset email sent", Toast.LENGTH_LONG).show();
+                                    finish();
+                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
                                 } else {
 
@@ -81,7 +83,9 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
         }
         if(v == btnCancel){
 
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.putExtra("email", editTextEmail.getText().toString().trim());
+            startActivity(intent);
             finish();
 
         }
