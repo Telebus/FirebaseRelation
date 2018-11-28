@@ -91,6 +91,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
 
         }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+
+            editTextEmail.setError("Invalid email!");
+            editTextEmail.requestFocus();
+            return;
+
+        }
         if(password.isEmpty()) {
 
             editTextPassword.setError("Password required!");
@@ -104,13 +111,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editTextConfirmPassword.requestFocus();
             return;
         }
+        if(password.length() < 6){
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-
-            editTextEmail.setError("Invalid email!");
-            editTextEmail.requestFocus();
+            editTextPassword.setError("Passwords must be at least 6 characters long!");
+            editTextConfirmPassword.setError("Passwords must be at least 6 characters long!");
+            editTextConfirmPassword.requestFocus();
             return;
-
         }
         if(phone.length() != 9) {
 
