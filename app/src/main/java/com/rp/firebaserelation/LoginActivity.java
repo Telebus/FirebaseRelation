@@ -125,50 +125,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (v == textViewForgot){
 
             String email = editTextEmail.getText().toString().trim();
-
-            if(TextUtils.isEmpty(email)) {
-
-                //email is empty
-                Toast.makeText(this, "Please enter your email", Toast.LENGTH_LONG).show();
-                //stopping the function execution further
-                return;
-
-            } else {
-
-                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
-                alertDialog.setTitle("Alert");
-                alertDialog.setMessage("Do you want to send a password reset email?");
-                alertDialog.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        firebaseAuth.sendPasswordResetEmail(editTextEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-
-                                    Toast.makeText(LoginActivity.this, "Password reset email sent", Toast.LENGTH_SHORT).show();
-
-                                } else {
-
-                                    Toast.makeText(LoginActivity.this, "Error sending password reset email", Toast.LENGTH_LONG).show();
-
-                                }
-                            }
-                        });
-
-                    }
-                });
-                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        return;
-
-                    }
-                });
-                alertDialog.show();
-            }
+            Intent intent = new Intent(getApplicationContext(), PasswordResetActivity.class);
+            intent.putExtra("email", email);
+            startActivity(intent);
+            finish();
 
         }
     }

@@ -19,7 +19,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".EditProfile" />
-        <activity android:name=".ChangePassword"></activity>
+        <activity android:name=".ChangePassword" />
+        <activity android:name=".PasswordResetActivity"></activity>
     </application>
 
 </manifest>
